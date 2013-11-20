@@ -13,7 +13,7 @@ import java.awt.Image;
  * @author pmikos (sokar92)
  */
 public final class DemotyDownloadPlugin implements IDownloadPlugin {
-	private Map<String, Object> _state;
+	private Map<String, byte[]> _state;
 	private EViewType _view;
 	private Map<EViewType, IMemeBuffer> _viewBuffer;
 	
@@ -21,7 +21,7 @@ public final class DemotyDownloadPlugin implements IDownloadPlugin {
 	 * Instantiates new download plugin designed
 	 * for "Demotywatory.pl" page
 	 */
-	public DemotyDownloadPlugin(Map<String, Object> state){		
+	public DemotyDownloadPlugin(Map<String, byte[]> state){		
 		_state = state;
 		_view = null;
 		
@@ -33,7 +33,7 @@ public final class DemotyDownloadPlugin implements IDownloadPlugin {
 	}
 	
 	@Override
-	public Map<String, Object> getState(){
+	public Map<String, byte[]> getState(){
 		return _state;
 	}
 
@@ -67,13 +67,24 @@ public final class DemotyDownloadPlugin implements IDownloadPlugin {
 	public Meme getNext(){
 		if(_view == null)
 			return null;
-		return _viewBuffer.get(_view).getNext();
+		Meme m = _viewBuffer.get(_view).getNext();
+		m.setOwner(this);
+		return m;
 	}
 	
 	@Override
 	public Iterable<Meme> getNext(int n){
 		if(_view == null)
 			return null;
-		return _viewBuffer.get(_view).getNext(n);
+		Iterable<Meme> results = _viewBuffer.get(_view).getNext(n);
+		for(Meme m: results) {
+			m.setOwner(this);
+		}
+		return results;
+	}
+
+	@Override
+	public String getName() {
+		return "Demotywatory download plugin";
 	}
 }
