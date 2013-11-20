@@ -3,11 +3,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.tcs.memoizer</groupId>
-	<artifactId>memoizer</artifactId>
+	<artifactId>memoizer-plugin-Demoty</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>memoizer</name>
+	<name>memoizer-plugin-Demoty</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
@@ -33,7 +33,6 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>pl.edu.uj.tcs.memoizer.Main</mainClass>
 						</manifest>
 					</archive>
 					<descriptorRefs>
@@ -50,7 +49,6 @@
 						<manifest>
 							<addClasspath>true</addClasspath>
 							<classpathPrefix>lib/</classpathPrefix>
-							<mainClass>pl.edu.uj.tcs.memoizer.Main</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
@@ -97,6 +95,13 @@
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>1.2.17</version>
-	</dependency>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.tcs.memoizer</groupId>
+			<artifactId>memoizer-plugins</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+     	</dependency>
+		
 	</dependencies>
 </project>
