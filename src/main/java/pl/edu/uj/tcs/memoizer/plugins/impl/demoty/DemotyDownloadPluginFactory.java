@@ -2,6 +2,7 @@ package pl.edu.uj.tcs.memoizer.plugins.impl.demoty;
 
 import pl.edu.uj.tcs.memoizer.plugins.IPlugin;
 import pl.edu.uj.tcs.memoizer.plugins.IPluginFactory;
+import pl.edu.uj.tcs.memoizer.serialization.StateObject;
 import java.awt.Image;
 import java.util.Map;
 
@@ -12,15 +13,15 @@ import java.util.Map;
 public class DemotyDownloadPluginFactory implements IPluginFactory {
 	
 	public String getPluginName(){
-		return "Demotywatory download plugin";
+		return "Demotywatory";
 	}
 	
 	public Image getIcon(){
 		return null;
 	}
 	
-	public IPlugin newInstance(Map<String, byte[]> pluginStateMap){
-		return new DemotyDownloadPlugin(pluginStateMap);
+	public IPlugin newInstance(StateObject pluginState){
+		return new DemotyDownloadPlugin(pluginState);
 	}
 	
 }

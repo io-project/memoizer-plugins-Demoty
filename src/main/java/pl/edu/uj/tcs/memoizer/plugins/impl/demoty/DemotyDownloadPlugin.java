@@ -2,6 +2,7 @@ package pl.edu.uj.tcs.memoizer.plugins.impl.demoty;
 
 import pl.edu.uj.tcs.memoizer.plugins.*;
 import pl.edu.uj.tcs.memoizer.plugins.impl.*;
+import pl.edu.uj.tcs.memoizer.serialization.StateObject;
 
 import java.net.*;
 import java.util.*;
@@ -13,7 +14,7 @@ import java.awt.Image;
  * @author pmikos (sokar92)
  */
 public final class DemotyDownloadPlugin implements IDownloadPlugin {
-	private Map<String, byte[]> _state;
+	private StateObject _state;
 	private EViewType _view;
 	private Map<EViewType, IMemeBuffer> _viewBuffer;
 	
@@ -21,7 +22,7 @@ public final class DemotyDownloadPlugin implements IDownloadPlugin {
 	 * Instantiates new download plugin designed
 	 * for "Demotywatory.pl" page
 	 */
-	public DemotyDownloadPlugin(Map<String, byte[]> state){		
+	public DemotyDownloadPlugin(StateObject state){		
 		_state = state;
 		_view = null;
 		
@@ -33,7 +34,7 @@ public final class DemotyDownloadPlugin implements IDownloadPlugin {
 	}
 	
 	@Override
-	public Map<String, byte[]> getState(){
+	public StateObject getState(){
 		return _state;
 	}
 
@@ -85,6 +86,6 @@ public final class DemotyDownloadPlugin implements IDownloadPlugin {
 
 	@Override
 	public String getName() {
-		return "Demotywatory download plugin";
+		return "Demotywatory";
 	}
 }
