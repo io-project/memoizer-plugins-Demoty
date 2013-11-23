@@ -4,7 +4,7 @@
 
 	<groupId>org.tcs.memoizer</groupId>
 	<artifactId>memoizer-plugin-Demoty</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<packaging>jar</packaging>
 
 	<name>memoizer-plugin-Demoty</name>
