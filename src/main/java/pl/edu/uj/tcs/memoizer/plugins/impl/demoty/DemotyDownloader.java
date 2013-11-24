@@ -70,14 +70,18 @@ class DemotyDownloader {
 		
 		for(Element meme : memeNodes){
 			try{
-				String desc = "";
-				
 				Element picLink = meme.select("a.picwrapper[href]").first();
 				URL pageLink = extractPageLinkFromATag(picLink);
 				
 				Element image = picLink.select("img.demot[src]").first();
 				URL imageLink = extractImageLinkFromImgTag(image);
-				String title = extractTitleFromImgTag(image);
+				
+				String fullTitle = extractTitleFromImgTag(image);
+				int split = fullTitle.indexOf('-');
+				
+				String title = fullTitle.substring(0, split-1);
+				String desc = fullTitle.substring(split+1, fullTitle.length()-1);
+				
 				int width = extractWidthFromImgTag(image);
 				int heigth = extractHeightFromImgTag(image);
 				
