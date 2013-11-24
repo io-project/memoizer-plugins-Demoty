@@ -44,7 +44,8 @@ public class DemotyMemeBufferQueue extends MemeBuffer {
 		List<Meme> result = new ArrayList<Meme>();
 		
 		boolean found = false;
-		while(!found){
+		int count = 0;
+		while(!found && count < 10){
 			Iterable<Meme> memes = getMemesFromPage(lastSeenPage);
 			
 			for(Meme m : memes){
@@ -56,6 +57,7 @@ public class DemotyMemeBufferQueue extends MemeBuffer {
 			}
 			
 			lastSeenPage++;
+			count++;
 		}
 		
 		Iterable<Meme> nextPage = getMemesFromPage(lastSeenPage);
