@@ -28,7 +28,7 @@ public final class DemotyDownloadPlugin implements IDownloadPlugin {
 		
 		_viewBuffer = new HashMap<EViewType, IMemeBuffer>();
 		_viewBuffer.put(EViewType.CHRONOLOGICAL, new DemotyMemeBufferChrono(_state));
-		_viewBuffer.put(EViewType.UNSEEN, new DemotyMemeBufferUnseen(_state));
+		//_viewBuffer.put(EViewType.UNSEEN, new DemotyMemeBufferUnseen(_state));
 		_viewBuffer.put(EViewType.FAVOURITE, new DemotyMemeBufferTop(_state));
 		_viewBuffer.put(EViewType.QUEUE, new DemotyMemeBufferQueue(_state));
 	}
@@ -43,7 +43,7 @@ public final class DemotyDownloadPlugin implements IDownloadPlugin {
 		List<EViewType> list = new ArrayList<EViewType>();
 		list.add(EViewType.CHRONOLOGICAL);
 		list.add(EViewType.FAVOURITE);
-		list.add(EViewType.UNSEEN);
+		//list.add(EViewType.UNSEEN);
 		list.add(EViewType.QUEUE);
 		return list;
 	}
