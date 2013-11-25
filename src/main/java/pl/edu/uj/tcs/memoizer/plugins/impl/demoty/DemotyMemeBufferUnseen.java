@@ -37,7 +37,8 @@ public class DemotyMemeBufferUnseen extends MemeBuffer {
 				result.add(got.get(j));
 		}
 		
-		lastSeenLink = result.get(result.size()-1).getImageLink();
+		if(result.size() > 0)
+			lastSeenLink = result.get(result.size()-1).getImageLink();
 		
 		return result;
 	}
@@ -73,7 +74,8 @@ public class DemotyMemeBufferUnseen extends MemeBuffer {
 				result.add(got.get(i));
 		}
 		
-		lastSeenLink = result.get(result.size()-1).getImageLink();
+		if(result.size() > 0)
+			lastSeenLink = result.get(result.size()-1).getImageLink();
 		
 		return result;
 	}

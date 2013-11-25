@@ -32,10 +32,12 @@ public class DemotyMemeBufferChrono extends MemeBuffer {
 	}
 	
 	private Iterable<Meme> downloadFirstTime(){
-		Iterable<Meme> lst = getMemesFromPage(1);
+		List<Meme> lst = makeList(getMemesFromPage(1));
 		
-		lastSeenPage = 1;
-		lastSeenLink = getLastMemeFromIterable(lst).getImageLink();
+		if(lst.size() > 0){
+			lastSeenPage = 1;
+			lastSeenLink = lst.get(lst.size()-1).getImageLink();
+		}
 		
 		return lst;
 	}
@@ -60,9 +62,11 @@ public class DemotyMemeBufferChrono extends MemeBuffer {
 			count++;
 		}
 		
-		Iterable<Meme> nextPage = getMemesFromPage(lastSeenPage);
-		result.addAll(makeList(nextPage));
-		lastSeenLink = getLastMemeFromIterable(nextPage).getImageLink();
+		List<Meme> nextPage = makeList(getMemesFromPage(lastSeenPage));
+		result.addAll(nextPage);
+		
+		if(nextPage.size() > 0)
+			lastSeenLink = nextPage.get(nextPage.size()-1).getImageLink();
 		
 		return result;
 	}
@@ -75,7 +79,7 @@ public class DemotyMemeBufferChrono extends MemeBuffer {
 	
 	private Meme getLastMemeFromIterable(Iterable<Meme> coll){
 		List<Meme> lst = makeList(coll);
-		return lst.get(lst.size() - 1);
+		return lst.size() > 0 ? lst.get(lst.size() - 1) : null;
 	}
 	
 	private List<Meme> makeList(Iterable<Meme> iter){
