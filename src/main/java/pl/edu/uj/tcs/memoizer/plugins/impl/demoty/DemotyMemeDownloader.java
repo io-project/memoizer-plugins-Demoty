@@ -15,7 +15,7 @@ import org.jsoup.select.Elements;
  * Plugin submodule designed for downloading 
  * and extracting memes from page sources
  */
-class DemotyDownloader {
+class DemotyMemeDownloader {
 	
 	/*
 	 * Get a page source, parse it,
@@ -95,7 +95,7 @@ class DemotyDownloader {
 	
 	private static URL extractPageLinkFromATag(Element aTagElement){
 		try{
-			return new URL(DemotyUrlFactory.getBaseUrl() + aTagElement.attr("href"));
+			return new URL("http://www.demotywatory.pl" + aTagElement.attr("href"));
 		}catch(Exception e){}
 		return null;
 	}
