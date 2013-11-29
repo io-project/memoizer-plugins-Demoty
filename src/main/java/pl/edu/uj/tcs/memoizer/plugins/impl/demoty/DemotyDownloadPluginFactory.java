@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.imageio.ImageIO;
 import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.io.IOException;
 
 /**
@@ -26,7 +25,7 @@ public class DemotyDownloadPluginFactory implements IPluginFactory {
 		List<EViewType> list = new ArrayList<EViewType>();
 		list.add(EViewType.CHRONOLOGICAL);
 		list.add(EViewType.FAVOURITE);
-		//list.add(EViewType.UNSEEN);
+		list.add(EViewType.UNSEEN);
 		list.add(EViewType.QUEUE);
 		return list;
 	}
@@ -89,8 +88,8 @@ public class DemotyDownloadPluginFactory implements IPluginFactory {
 			return new DemotySequentialDownloader("DemotyQueue", state, view, "http://www.demotywatory.pl/poczekalnia/page");
 		case FAVOURITE:
 			return new DemotySequentialDownloader("DemotyTopPercent", state, view, "http://www.demotywatory.pl/topka/procenty/page");
-		//case UNSEEN:
-			//return null;
+		case UNSEEN:
+			return new DemotyQueueDownloader("DemotyUnseen", state, view, "http://www.demotywatory.pl/page");
 		default:
 			throw new InvalidViewException();	
 		}
