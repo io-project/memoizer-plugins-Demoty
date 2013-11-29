@@ -77,7 +77,7 @@ class DemotyMemeDownloader {
 				URL imageLink = extractImageLinkFromImgTag(image);
 				
 				String fullTitle = extractTitleFromImgTag(image);
-				int split = fullTitle.indexOf('-');
+				int split = fullTitle.indexOf('–');
 				
 				String title = fullTitle.substring(0, split-1);
 				String desc = fullTitle.substring(split+1, fullTitle.length()-1);
