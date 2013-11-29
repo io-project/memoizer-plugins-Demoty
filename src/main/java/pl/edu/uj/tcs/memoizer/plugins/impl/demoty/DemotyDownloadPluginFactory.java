@@ -4,7 +4,7 @@ import pl.edu.uj.tcs.memoizer.plugins.EViewType;
 import pl.edu.uj.tcs.memoizer.plugins.IDownloadPlugin;
 import pl.edu.uj.tcs.memoizer.plugins.IPluginFactory;
 import pl.edu.uj.tcs.memoizer.plugins.InvalidViewException;
-import pl.edu.uj.tcs.memoizer.serialization.StateObject;
+import pl.edu.uj.tcs.memoizer.serialization.IStateObject;
 import pl.edu.uj.tcs.memoizer.plugins.impl.demoty.DemotySequentialDownloader;
 
 import java.awt.Image;
@@ -80,7 +80,7 @@ public class DemotyDownloadPluginFactory implements IPluginFactory {
 	}
 
 	@Override
-	public IDownloadPlugin newInstance(StateObject state, EViewType view)
+	public IDownloadPlugin newInstance(IStateObject state, EViewType view)
 			throws InvalidViewException {
 		switch(view){
 		case CHRONOLOGICAL:

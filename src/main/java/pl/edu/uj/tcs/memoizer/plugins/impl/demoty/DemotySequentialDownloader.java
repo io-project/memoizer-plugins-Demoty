@@ -3,7 +3,7 @@ package pl.edu.uj.tcs.memoizer.plugins.impl.demoty;
 import pl.edu.uj.tcs.memoizer.plugins.IDownloadPlugin;
 import pl.edu.uj.tcs.memoizer.plugins.EViewType;
 import pl.edu.uj.tcs.memoizer.plugins.Meme;
-import pl.edu.uj.tcs.memoizer.serialization.StateObject;
+import pl.edu.uj.tcs.memoizer.serialization.IStateObject;
 
 import java.net.URL;
 import java.util.Queue;
@@ -19,7 +19,7 @@ public class DemotySequentialDownloader implements IDownloadPlugin {
 	 * IPlugin members
 	 */
 	private String _serviceName;
-	private StateObject _state;
+	private IStateObject _state;
 	
 	/*
 	 * IDownloadPlugin members
@@ -39,7 +39,7 @@ public class DemotySequentialDownloader implements IDownloadPlugin {
 	 * Create new sequential downloader
 	 */
 	public DemotySequentialDownloader(
-			String serviceName, StateObject state, 
+			String serviceName, IStateObject state, 
 			EViewType view, String workingUrl) 
 	{
 		_serviceName = serviceName;
@@ -56,7 +56,7 @@ public class DemotySequentialDownloader implements IDownloadPlugin {
 	/*
 	 * Returns plugin state
 	 */
-	public StateObject getState() {
+	public IStateObject getState() {
 		return _state;
 	}
 	
