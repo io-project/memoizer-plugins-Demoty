@@ -2,9 +2,13 @@ package pl.edu.uj.tcs.memoizer.plugins.impl.demoty;
 
 import pl.edu.uj.tcs.memoizer.plugins.IDownloadPlugin;
 import pl.edu.uj.tcs.memoizer.plugins.EViewType;
+import pl.edu.uj.tcs.memoizer.plugins.IPluginFactory;
 import pl.edu.uj.tcs.memoizer.plugins.Meme;
 import pl.edu.uj.tcs.memoizer.serialization.IStateObject;
 
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Queue;
 import java.util.List;
@@ -20,11 +24,12 @@ public class DemotySequentialDownloader implements IDownloadPlugin {
 	 */
 	private String _serviceName;
 	private IStateObject _state;
+	private IPluginFactory _pluginFactory;
 	
 	/*
 	 * IDownloadPlugin members
 	 */
-	private String _workingUrl;
+	private URI _workingUrl;
 	private EViewType _view;
 	
 	/*
@@ -40,7 +45,7 @@ public class DemotySequentialDownloader implements IDownloadPlugin {
 	 */
 	public DemotySequentialDownloader(
 			String serviceName, IStateObject state, 
-			EViewType view, String workingUrl) 
+			EViewType view, URI workingUrl, IPluginFactory 	pluginFactory) 
 	{
 		_serviceName = serviceName;
 		_state = state;
@@ -51,6 +56,7 @@ public class DemotySequentialDownloader implements IDownloadPlugin {
 		_lastSeenPage = 0;
 		_lastSeenUrl = null;
 		_queue = new LinkedList<Meme>();
+		_pluginFactory = pluginFactory;
 	}
 	
 	/*
@@ -156,8 +162,10 @@ public class DemotySequentialDownloader implements IDownloadPlugin {
 			List<Meme> nextPageMemes = downloadMemesFromPageNum(page);
 			
 			if(nextPageMemes.size() > 0) {
-				for(Meme meme : nextPageMemes)
+				for(Meme meme : nextPageMemes){
+					meme.setPluginFactory(this._pluginFactory);
 					result.add(meme);
+				}
 				
 				_lastSeenPage = page;
 				_lastSeenUrl = result.get(result.size() - 1).getImageLink();
@@ -183,8 +191,15 @@ public class DemotySequentialDownloader implements IDownloadPlugin {
 	}
 	
 	private List<Meme> downloadMemesFromPageNum(int num) {
-		String url = _workingUrl + "/" + num;
-		return DemotyMemeDownloader.downloadMemesFromPage(url, _view);
+		try{
+			URI uri = new URI(_workingUrl.getScheme(), _workingUrl.getAuthority(), _workingUrl.getPath()+"/"+num, _workingUrl.getQuery(), _workingUrl.getFragment());
+			System.out.println("URL: "+uri.toURL());
+			
+			return DemotyMemeDownloader.downloadMemesFromPage(uri.toURL(), _view);
+		}catch(MalformedURLException | URISyntaxException e){
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	private int indexContainingSpecificUrl(List<Meme> list, URL url) {

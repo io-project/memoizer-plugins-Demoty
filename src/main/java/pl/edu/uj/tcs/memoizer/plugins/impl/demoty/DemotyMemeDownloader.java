@@ -20,7 +20,7 @@ class DemotyMemeDownloader {
 	 * Get a page source, parse it,
 	 * extract memes and return
 	 */
-	static List<Meme> downloadMemesFromPage(String url, EViewType viewType){
+	static List<Meme> downloadMemesFromPage(URL url, EViewType viewType){
 		return extractMemesFromNodes(
 				extractMemeNodes(
 				downloadPageSource(url)), viewType);
@@ -31,10 +31,10 @@ class DemotyMemeDownloader {
 	 * If success returns downloaded page
 	 * otherwise returns null
 	 */
-	private static Document downloadPageSource(String url){
+	private static Document downloadPageSource(URL url){
 		try{
 			return Jsoup
-					.connect(url)
+					.connect(url.toString())
 					.userAgent("Mozilla")
 					.get();
 		} catch(IOException e){}

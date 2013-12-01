@@ -1,18 +1,22 @@
 package pl.edu.uj.tcs.memoizer.plugins.impl.demoty;
 
+import java.awt.Image;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.imageio.ImageIO;
+
 import pl.edu.uj.tcs.memoizer.plugins.EViewType;
 import pl.edu.uj.tcs.memoizer.plugins.IDownloadPlugin;
 import pl.edu.uj.tcs.memoizer.plugins.IPluginFactory;
 import pl.edu.uj.tcs.memoizer.plugins.InvalidViewException;
 import pl.edu.uj.tcs.memoizer.serialization.IStateObject;
-import pl.edu.uj.tcs.memoizer.plugins.impl.demoty.DemotySequentialDownloader;
-
-import java.awt.Image;
-import java.util.ArrayList;
-import java.util.List;
-import javax.imageio.ImageIO;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
 
 /**
  * Demotywatory.pl download plugin factory implementation
@@ -27,6 +31,8 @@ public class DemotyDownloadPluginFactory implements IPluginFactory {
 		list.add(EViewType.FAVOURITE);
 		list.add(EViewType.UNSEEN);
 		list.add(EViewType.QUEUE);
+		list.add(EViewType.SEARCH);
+		list.add(EViewType.RANDOM);
 		return list;
 	}
 
@@ -79,19 +85,50 @@ public class DemotyDownloadPluginFactory implements IPluginFactory {
 	}
 
 	@Override
-	public IDownloadPlugin newInstance(IStateObject state, EViewType view)
-			throws InvalidViewException {
-		switch(view){
-		case CHRONOLOGICAL:
-			return new DemotySequentialDownloader("DemotyChrono", state, view, "http://www.demotywatory.pl/page");
-		case QUEUE:
-			return new DemotySequentialDownloader("DemotyQueue", state, view, "http://www.demotywatory.pl/poczekalnia/page");
-		case FAVOURITE:
-			return new DemotySequentialDownloader("DemotyTopPercent", state, view, "http://www.demotywatory.pl/topka/procenty/page");
-		case UNSEEN:
-			return new DemotyQueueDownloader("DemotyUnseen", state, view, "http://www.demotywatory.pl/page");
-		default:
-			throw new InvalidViewException();	
+	public IDownloadPlugin newInstance(IStateObject state, EViewType viewType)throws InvalidViewException {
+		try{
+			switch(viewType){
+			
+				case CHRONOLOGICAL:
+				case UNSEEN:
+					return new DemotySequentialDownloader("DemotywatoryChrono", state, viewType, new URI("http://www.demotywatory.pl/page"), this);
+				case QUEUE:
+					return new DemotySequentialDownloader("DemotywatoryQueue", state, viewType, new URI("http://www.demotywatory.pl/poczekalnia/page"), this);
+				case FAVOURITE:
+					return new DemotySequentialDownloader("DemotywatoryTopPercent", state, viewType, new URI("http://www.demotywatory.pl/topka/procenty/page"), this);
+				case SEARCH:
+					throw new RuntimeException("Missing keyword for Searching");
+				case RANDOM:
+					return new DemotySingleDownloader("DemotywatoryRandom", state, viewType, new URI("http://demotywatory.pl/losuj"), this);
+				//case UNSEEN:
+					//return new DemotyQueueDownloader("DemotyUnseen", state, view, "http://www.demotywatory.pl/page");
+				default:
+					throw new InvalidViewException();	
+			}
+		}catch(URISyntaxException e){
+			throw new InvalidViewException();
+		}
+	}
+
+	/**
+	 * Extended version of newInstance taking additional parameter for parametrised views.
+	 * @author pkubiak
+	 */
+	@Override
+	public IDownloadPlugin newInstance(IStateObject state, EViewType viewType, Object parameters) throws InvalidViewException {
+		switch(viewType){
+			case SEARCH:
+				String searchKey = (String)parameters;
+				try {
+					String url = "http://demotywatory.pl/szukaj/page?q=" + URLEncoder.encode(searchKey, "UTF-8");
+					URI uri = new URI(url);
+					return new DemotySequentialDownloader("DemotywatorySearch", state, viewType, uri, this);
+				} catch (UnsupportedEncodingException | URISyntaxException e) {
+					e.printStackTrace();
+					throw new InvalidViewException();
+				}
+			default:
+				return newInstance(state, viewType);
 		}
 	}
 	
