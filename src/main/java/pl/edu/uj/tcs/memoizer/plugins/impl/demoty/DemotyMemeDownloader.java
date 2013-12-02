@@ -72,21 +72,39 @@ class DemotyMemeDownloader {
 				Element picLink = meme.select("a.picwrapper[href]").first();
 				URL pageLink = extractPageLinkFromATag(picLink);
 				
+				//<input type="hidden" class="pic_id" name="pic_id" value="4247512"/>
+				Integer idInput = Integer.parseInt(meme.select("input[name=pic_id]").first().attr("value"));
+				
 				Element image = picLink.select("img.demot[src]").first();
 				URL imageLink = extractImageLinkFromImgTag(image);
 				
-				String fullTitle = extractTitleFromImgTag(image);
+
+				String fullTitle = extractTitleFromImgTag(image), title = null, description = null;
 				int split = fullTitle.indexOf('–');
+				System.out.println(fullTitle+" "+split);
+				if(split<0)
+					title = fullTitle;
+				else if(split==0)
+					title = fullTitle.substring(1, fullTitle.length()-1).trim();
+				else if(split==fullTitle.length()-1)
+					title = fullTitle.substring(0, fullTitle.length()-2).trim();
+				else{
+					title = fullTitle.substring(0, split-1).trim();
+					description = fullTitle.substring(split+1, fullTitle.length()-1).trim();
+				}
 				
-				String title = fullTitle.substring(0, split-1);
-				String desc = fullTitle.substring(split+1, fullTitle.length()-1);
 				
 				int width = extractWidthFromImgTag(image);
 				int heigth = extractHeightFromImgTag(image);
 				
-				if(imageLink != null)
-					lst.add(new Meme(imageLink, pageLink, title, desc, width, heigth, null, viewType, pluginFactory));
-			} catch(Exception e){}
+				if(imageLink != null){
+					Meme newMeme = new Meme(imageLink, pageLink, title, description, width, heigth, null, viewType, pluginFactory);
+					newMeme.setId(idInput);
+					lst.add(newMeme);
+				}
+			} catch(Exception e){
+				
+			}
 		}
 		
 		return lst;
