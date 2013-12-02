@@ -195,7 +195,7 @@ public class DemotySequentialDownloader implements IDownloadPlugin {
 			URI uri = new URI(_workingUrl.getScheme(), _workingUrl.getAuthority(), _workingUrl.getPath()+"/"+num, _workingUrl.getQuery(), _workingUrl.getFragment());
 			System.out.println("URL: "+uri.toURL());
 			
-			return DemotyMemeDownloader.downloadMemesFromPage(uri.toURL(), _view);
+			return DemotyMemeDownloader.downloadMemesFromPage(uri.toURL(), _view, this._pluginFactory);
 		}catch(MalformedURLException | URISyntaxException e){
 			e.printStackTrace();
 		}

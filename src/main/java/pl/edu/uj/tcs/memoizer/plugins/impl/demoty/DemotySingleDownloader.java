@@ -120,7 +120,7 @@ public class DemotySingleDownloader implements IDownloadPlugin {
 	
 	private List<Meme> downloadMemes() {
 		try {
-			return DemotyMemeDownloader.downloadMemesFromPage(this._workingUrl.toURL(), _view);
+			return DemotyMemeDownloader.downloadMemesFromPage(this._workingUrl.toURL(), _view, this._pluginFactory);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 			return new ArrayList<Meme>();
