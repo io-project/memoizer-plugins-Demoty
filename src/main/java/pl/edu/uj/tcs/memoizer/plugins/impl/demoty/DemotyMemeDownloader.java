@@ -98,7 +98,7 @@ class DemotyMemeDownloader {
 				int heigth = extractHeightFromImgTag(image);
 				
 				if(imageLink != null){
-					Meme newMeme = new Meme(imageLink, pageLink, title, description, width, heigth, null, viewType, pluginFactory);
+					Meme newMeme = new Meme(imageLink, pageLink, title, description, width, heigth, null, pluginFactory);
 					newMeme.setId(idInput);
 					lst.add(newMeme);
 				}
